@@ -1,25 +1,34 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { getContacts, getFilter } from '../../redux/selectors';
+import ContactListItem from '../ContactListItem/ContactListItem';
+import Notiflix from 'notiflix';
 import css from './ContactList.module.css'
 
-export const ContactList = ({ contacts, deleteContact }) => {
+function ContactList() {
+  const filterFunction = useSelector(getFilter);
+  const contacts = useSelector(getContacts);
+
+  const filteredContacts = contacts?.filter(contact =>
+    contact?.name?.toLowerCase().includes(filterFunction.toLowerCase())
+  );
+
+  if (!filteredContacts?.length) {
+    Notiflix.Notify.info('No contacts found.');
+  }
+
   return (
     <div className={css.contacts}>
       <h2>Contacts</h2>
       <ul className={css.contacts__list}>
-        {contacts.map(({ id, name, number }) => (
-          <li className={css.contacts__item} key={id}>
-            <p className={css.contacts__name}>{name}</p>
-            <p className={css.contacts__number}> {number}</p>
-            <button
-              onClick={() => {
-                deleteContact(id);
-              }}
-              className={css.contacts__btn}
-            >
-              Delete!
-            </button>
-          </li>
+        {filteredContacts.map(({ id, name, phone }) => (
+          <ContactListItem key={id} id={id} name={name} phone={phone} />
         ))}
       </ul>
     </div>
   );
-};
+}
+
+export default ContactList;
+
+

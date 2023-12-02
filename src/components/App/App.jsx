@@ -1,0 +1,127 @@
+import React from 'react';
+import ContactForm from 'components/ContactForm/ContactForm';
+import ContactList from 'components/ContactList/ContactList';
+import Filter from 'components/Filter/Filter';
+import css from './App.module.css';
+
+import { useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
+
+function App() {
+  const contacts = useSelector(getContacts);
+
+  return (
+    <>
+      <section className={css.content}>
+      <div className={css.content__container}>
+      <h1>Phonebook</h1>
+      <ContactForm contacts={contacts} />
+      <Filter />
+      <ContactList />
+      </div>
+      </section>
+    </>
+  );
+}
+
+export default App;
+
+
+
+// Old code:
+
+// import React from 'react'
+// import { useState, useEffect } from 'react';
+
+// import { nanoid } from 'nanoid'
+
+// import { Report } from 'notiflix/build/notiflix-report-aio';
+
+// import css from './App.module.css'
+
+
+// import { Filter } from '../Filter/Filter'
+// import { ContactList } from '../ContactList/ContactList'
+// import { ContactForm } from '../ContactForm/ContactForm'
+
+// export const App = () => {
+//    const [contacts, setContacts] = useState(
+//     () =>
+//       JSON.parse(window.localStorage.getItem('contacts')) ?? [
+//         { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+//         { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+//         { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+//         { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+//       ]
+//    );
+//   const [filter, setFilter] = useState('');
+
+//   useEffect(() => {
+//     window.localStorage.setItem('contacts', JSON.stringify(contacts));
+//   }, [contacts]);
+
+//   const addContact = ({ name, number }) => {
+//     const newContact = {
+//       id: nanoid(),
+//       name,
+//       number,
+//     };
+
+//     contacts.filter(
+//       contact =>
+//         contact.name.toLowerCase().trim() ===
+//           newContact.name.toLowerCase().trim() ||
+//         contact.number.trim() === newContact.number.trim()
+//     ).length
+//       ? Report.failure(`Failed to add!`, `${newContact.name} is already in contacts!`, `Back`)
+//       : setContacts([newContact, ...contacts]);
+//   };
+
+//   const changeFilter = event => {
+//     setFilter(event.currentTarget.value.toLowerCase());
+//   };
+
+//   const filteredContacts = () => {
+//     return contacts.filter(contact =>
+//       contact.name.toLowerCase().includes(filter.toLowerCase())
+//     );
+//   };
+
+//   const deleteContact = id => {
+//     setContacts(contacts.filter(contact => contact.id !== id));
+//   };
+
+//   return (
+//   <section className={css.content}>
+//     <div className={css.content__container}>
+//       <ContactForm onSubmit={addContact} />
+//       <Filter value={filter} onChange={changeFilter} />
+//       <ContactList
+//         contacts={filteredContacts()}
+//         deleteContact={deleteContact}
+//       />
+//     </div>
+//   </section>
+//   );
+// }
+
+
+
+// import { ContactForm } from 'components/ContactForm';
+// import { ContactList } from 'components/ContactList';
+// import { Filter } from 'components/Filter';
+
+// export const App = () => {
+//   return (
+//     <section className={css.content}>
+//     <div className={css.content__container}>
+//       <h1>Phonebook</h1>
+//       <ContactForm />
+//       <h1>Contacts</h1>
+//       <h1>Find contacts by name</h1>
+//       <Filter />
+//       <ContactList />
+//     </div>
+//     </section>
+//   );
+// };
