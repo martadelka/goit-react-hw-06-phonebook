@@ -15,7 +15,7 @@ export const ContactList = ({ contacts, deleteContact }) => {
               }}
               className={css.contacts__btn}
             >
-              Delete
+              Delete!
             </button>
           </li>
         ))}
