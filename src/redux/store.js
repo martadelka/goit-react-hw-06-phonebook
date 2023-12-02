@@ -1,58 +1,19 @@
-import storage from 'redux-persist/lib/storage';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
-import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducer'
-// import { filterReducer } from './filterSlice';
-// import { contactReducer } from './contactSlice';
-
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import rootReducer from './reducer';
 
 const persistConfig = {
-  key: 'root',
+  key: 'phonebook',
   storage,
-  whitelist: ['contacts'],
+  blacklist: ['filter'],
 };
 
-const persistedRootReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistedRootReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export const persistor = persistStore(store);
-
-
-
-
-// const persistConfig = {
-//   key: 'phonebook',
-//   storage,
-//   blacklist: ['filter'],
-// };
-
-// const persistedContactReducer = persistReducer(persistConfig, contactReducer);
-
-// export const store = configureStore({
-//   reducer: {
-//     contacts: persistedContactReducer,
-//     filter: filterReducer,
-//   },
-//   middleware: getDefaultMiddleware =>
-//     getDefaultMiddleware({ serializableCheck: false, }),
-// })
-
-// export const persistor = persistStore(store);
-
-
-
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// export const store = configureStore({
-//   reducer: persistedReducer,
-//   middleware: getDefaultMiddleware({ serializableCheck: false }),
-// });
-
-// export const persistor = persistStore(store);

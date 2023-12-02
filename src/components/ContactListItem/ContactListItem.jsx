@@ -1,9 +1,18 @@
 import React from 'react';
+import {
+  ContactListItem,
+  ContactIcon,
+  ContactDetails,
+  ContactName,
+  ContactPhone,
+  DeleteButton,
+} from './ContactListItemStyles';
+import { RiContactsLine } from 'react-icons/ri';
+import { AiFillDelete } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/contactSlice';
-import css from './ContactListItem.module.css'
 
-function ContactListItem({ id, name, phone }) {
+function ContactItem({ id, name, phone }) {
   const dispatch = useDispatch();
 
   const handleDeleteContact = contactId => {
@@ -11,19 +20,19 @@ function ContactListItem({ id, name, phone }) {
   };
 
   return (
-    <li className={css.contacts__item} key={id}>
-    <p className={css.contacts__name}>{name}</p>
-    <p className={css.contacts__number}> {phone}</p>
-    <button
-        onClick={() => {
-        handleDeleteContact(id);
-        }}
-        className={css.contacts__btn}
-    >
-        Delete
-    </button>
-    </li>
+    <ContactListItem key={id}>
+      <ContactIcon>
+        <RiContactsLine />
+      </ContactIcon>
+      <ContactDetails>
+        <ContactName>{name}</ContactName>
+        <ContactPhone>{phone}</ContactPhone>
+      </ContactDetails>
+      <DeleteButton onClick={() => handleDeleteContact(id)}>
+        <AiFillDelete />
+      </DeleteButton>
+    </ContactListItem>
   );
 }
 
-export default ContactListItem;
+export default ContactItem;

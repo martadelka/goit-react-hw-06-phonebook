@@ -1,8 +1,8 @@
 import React from 'react';
+import { FilterWrapper, FilterLabel, FilterInput } from './FilterStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilter } from 'redux/selectors';
 import { setFilter } from 'redux/filterSlice';
-import css from './Filter.module.css'
 
 function FilterComponent() {
   const dispatch = useDispatch();
@@ -11,20 +11,18 @@ function FilterComponent() {
   const handleFilterChange = e => {
     dispatch(setFilter(e.target.value.trim()));
   };
-
   return (
-    <div className={css.filter}>
-      <h2>Filter contacts</h2>
-      <input
+    <FilterWrapper>
+      <FilterLabel htmlFor="filter">Filter contacts:</FilterLabel>
+      <FilterInput
         type="text"
-        name="filter"
-        className={css.filter__input}
+        placeholder="Enter a name"
         id="filter"
+        name="filter"
         value={filter}
         onChange={handleFilterChange}
-        placeholder="Find contact"
       />
-    </div>
+    </FilterWrapper>
   );
 }
 
